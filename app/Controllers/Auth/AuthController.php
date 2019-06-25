@@ -17,9 +17,9 @@ class AuthController extends Controller
    'user_email'    => v::noWhitespace()->notEmpty()->email()->emailAvailable(),
    'user_password' => v::noWhitespace()->notEmpty(),
    'user_phone'    => v::notEmpty()->noWhitespace(),
-   'address'    => v::notEmpty()->noWhitespace(),
+   'address'       => v::notEmpty()->noWhitespace(),
    'storename'     => v::notEmpty()->noWhitespace(),
-   'city_id'     => v::notEmpty()->noWhitespace()
+   'city_id'       => v::notEmpty()->noWhitespace(),
 
   ]);
 
@@ -49,15 +49,14 @@ class AuthController extends Controller
    'user_password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),
   ]);
 
-  $auth=$this->auth->attempt(
-    $request->getParam('email'),
-    $request->getParam('password')
+  $auth = $this->auth->attempt(
+   $request->getParam('email'),
+   $request->getParam('password')
   );
-    
-  $response->getBody()->write(json_encode(array('signupStatus'=>'true')));
+
+  $response->getBody()->write(json_encode(array('signupStatus' => 'true')));
   return $response;
  }
-
 
  public function isLogged()
  {
