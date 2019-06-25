@@ -3,18 +3,20 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\Controller;
-use App\Model\User;
+use App\Models\User;
 use Respect\Validation\Validator as v;
 
 class AuthController extends Controller
 {
 
+// api for singup data and store that data in database
  public function postSignup($request, $response)
  {
 
+  // validate user post value
   $validation = $this->validator->validate($request, [
    'user_name'     => v::notEmpty()->alpha(),
-   'user_email'    => v::noWhitespace()->notEmpty()->email()->emailAvailable(),
+   'user_email'    => v::noWhitespace()->notEmpty(),
    'user_password' => v::noWhitespace()->notEmpty(),
    'user_phone'    => v::notEmpty()->noWhitespace(),
    'address'       => v::notEmpty()->noWhitespace(),
@@ -32,13 +34,14 @@ class AuthController extends Controller
 
    } else {
 
-    $response->getBody()->write("Something went wrong!");
+    $response->getBody()->write("Something went wrong Validation failed!");
 
    }
 
    return $response;
   }
 
+  // store user data in database
   $user = User::create([
    'user_name'     => $request->getParam('user_name'),
    'user_email'    => $request->getParam('user_email'),
@@ -46,27 +49,44 @@ class AuthController extends Controller
    'address'       => $request->getParam('address'),
    'storename'     => $request->getParam('storename'),
    'city_id'       => $request->getParam('city_id'),
-   'user_password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT),
+   'user_password' => password_hash($request->getParam('user_password'), PASSWORD_DEFAULT),
   ]);
 
   $auth = $this->auth->attempt(
-   $request->getParam('email'),
-   $request->getParam('password')
+   $request->getParam('user_email'),
+   $request->getParam('user_password')
   );
 
-  $response->getBody()->write(json_encode(array('signupStatus' => 'true')));
+  $authentication;
+  
+  if ($auth) {
+
+   $authentication = json_encode(array('authenticationSuccess' => true));
+
+  } else {
+
+   $authentication = json_encode(array('authenticationSuccess' => false));
+  }
+  $response->getBody()->write($authentication);
   return $response;
  }
 
- public function isLogged()
+ // api for check user is logged
+ public function isLogged($request, $response)
  {
+  $loggedStatus;
 
   if ($this->auth->check()) {
 
-   return json_encode(array('status' => true));
+   $loggedStatus = json_encode(array('status' => true));
+
   } else {
-   return json_encode(array('status' => false));
+      
+   $loggedStatus = json_encode(array('status' => false));
   }
+
+  $response->getBody()->write($loggedStatus);
+  return $response;
  }
 
 }
