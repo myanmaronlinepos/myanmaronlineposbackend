@@ -17,10 +17,10 @@ class AuthController extends Controller
   $validation = $this->validator->validate($request, [
    'user_name'     => v::notEmpty()->alpha(),
    'user_email'    => v::noWhitespace()->notEmpty(),
-   'user_password' => v::noWhitespace()->notEmpty(),
+   'user_password' => v::notEmpty(),
    'user_phone'    => v::notEmpty()->noWhitespace(),
-   'address'       => v::notEmpty()->noWhitespace(),
-   'storename'     => v::notEmpty()->noWhitespace(),
+   'address'       => v::notEmpty(),
+   'storename'     => v::notEmpty(),
    'city_id'       => v::notEmpty()->noWhitespace(),
 
   ]);
@@ -52,23 +52,8 @@ class AuthController extends Controller
    'user_password' => password_hash($request->getParam('user_password'), PASSWORD_DEFAULT),
   ]);
 
-  $auth = $this->auth->attempt(
-   $request->getParam('user_email'),
-   $request->getParam('user_password')
-  );
-
-  $authentication;
+  $this->postSignin($request,$response);
   
-  if ($auth) {
-
-   $authentication = json_encode(array('authenticationSuccess' => true));
-
-  } else {
-
-   $authentication = json_encode(array('authenticationSuccess' => false));
-  }
-  $response->getBody()->write($authentication);
-  return $response;
  }
 
  // api for check user is logged
@@ -78,15 +63,56 @@ class AuthController extends Controller
 
   if ($this->auth->check()) {
 
-   $loggedStatus = json_encode(array('status' => true));
+   $loggedStatus = json_encode(true);
 
   } else {
       
-   $loggedStatus = json_encode(array('status' => false));
+   $loggedStatus = json_encode(false);
   }
 
   $response->getBody()->write($loggedStatus);
   return $response;
+ }
+
+ //api for login
+ public function postSignin($request,$response) {
+
+    //check if user is already signin
+    if(!$this->auth->check()) {
+
+        $auth = $this->auth->attempt(
+            $request->getParam('user_email'),
+            $request->getParam('user_password')
+           );
+         
+           $authentication;
+           
+           if ($auth) {
+         
+            $authentication = json_encode(array('authenticationSuccess' => true));
+         
+           } else {
+         
+            $authentication = json_encode(array('authenticationSuccess' => false));
+           }
+           $response->getBody()->write($authentication);
+           return $response;
+    }else {
+        //if user is already signed, redirect dashboard
+        $response->getBody()->write(json_encode(array('alreadySigned' => true)));
+        return $response;
+    }
+ }
+
+ public function postSignOut($request,$response) {
+     $responseMsg="";
+     if($this->auth->check()) {
+         $this->auth->logout();
+         $responseMsg=array("logoutSuccess"=>true);
+     }else {
+         $responseMsg=array("logoutSuccess"=>false);
+     }
+     $response->getBody()->write(json_encode($responseMsg));
  }
 
 }

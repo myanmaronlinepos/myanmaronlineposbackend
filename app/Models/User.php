@@ -4,25 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model{
+class User extends Model
+{
 
-    protected $table="users";
+ protected $table = "users";
+ protected $primaryKey = 'user_id';
 
-    protected $fillable=[
-            'user_name',
-            'user_email',
-            'user_password',
-            'user_phone',
-            'address',
-            'storename',
-            'city_id'
-    ];
+ protected $fillable = [
+  'user_name',
+  'user_email',
+  'user_password',
+  'user_phone',
+  'address',
+  'storename',
+  'city_id',
+ ];
 
-    public function setPassword($password) {
+//  public function products() {
 
-        $this->update([
+//     return $this->hasMany('App\Models\Product');
+//  }
 
-            'password' => password_hash($password,$PASSWORD_DEFAULT)
-        ]);
-    }
+ public function setPassword($password)
+ {
+
+  $this->update([
+
+   'password' => password_hash($password, $PASSWORD_DEFAULT),
+  ]);
+ }
+
+ public function city() {
+    return $this->belongsTo('App\Models\City','city_id');
+}
+ 
 }

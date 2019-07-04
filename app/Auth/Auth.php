@@ -24,7 +24,6 @@ class Auth
 
   $user = User::where("user_email", $email)->first();
 
-//   var_dump($user);
   if (!$user) {
    return false;
   }
@@ -35,7 +34,6 @@ class Auth
    return true;
   }
 
-  var_dump($password.$email."\n".$user->user_password);
   return false;
  }
 
