@@ -17,6 +17,6 @@ class CityTableHandler
 
  public function getAllCity() {
      
-    return City::all('city_name');
+    return City::all('city_id','city_name');
  }
 }

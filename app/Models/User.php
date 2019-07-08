@@ -18,6 +18,7 @@ class User extends Model
   'address',
   'storename',
   'city_id',
+  'user_role'
  ];
 
 //  public function products() {

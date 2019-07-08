@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-//testing branch
+//testing branc
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Slim\App([
