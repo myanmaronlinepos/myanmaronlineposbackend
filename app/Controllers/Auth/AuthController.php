@@ -22,6 +22,7 @@ class AuthController extends Controller
    'address'       => v::notEmpty(),
    'storename'     => v::notEmpty(),
    'city_id'       => v::notEmpty()->noWhitespace(),
+   'user_role'     => v::notEmpty()->noWhitespace()
 
   ]);
 
@@ -49,6 +50,7 @@ class AuthController extends Controller
    'address'       => $request->getParam('address'),
    'storename'     => $request->getParam('storename'),
    'city_id'       => $request->getParam('city_id'),
+   'user_role'     => $request->getParam('user_role'),
    'user_password' => password_hash($request->getParam('user_password'), PASSWORD_DEFAULT),
   ]);
 
@@ -89,17 +91,17 @@ class AuthController extends Controller
            
            if ($auth) {
          
-            $authentication = json_encode(array('authenticationSuccess' => true));
+            $authentication = json_encode(true);
          
            } else {
          
-            $authentication = json_encode(array('authenticationSuccess' => false));
+            $authentication = json_encode(false);
            }
            $response->getBody()->write($authentication);
            return $response;
     }else {
         //if user is already signed, redirect dashboard
-        $response->getBody()->write(json_encode(array('alreadySigned' => true)));
+        $response->getBody()->write(json_encode(true));
         return $response;
     }
  }
@@ -108,9 +110,9 @@ class AuthController extends Controller
      $responseMsg="";
      if($this->auth->check()) {
          $this->auth->logout();
-         $responseMsg=array("logoutSuccess"=>true);
+         $responseMsg=true;
      }else {
-         $responseMsg=array("logoutSuccess"=>false);
+         $responseMsg=false;
      }
      $response->getBody()->write(json_encode($responseMsg));
  }
