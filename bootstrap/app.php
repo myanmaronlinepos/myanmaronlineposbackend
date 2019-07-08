@@ -1,11 +1,7 @@
 <?php
 
 session_start();
-<<<<<<< HEAD
-//testing branc
-=======
 //testing
->>>>>>> 8e31c8fced4759243c7119533fae81a02641160b
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Slim\App([
