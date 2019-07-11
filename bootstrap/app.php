@@ -32,7 +32,7 @@ $container['db'] = function ($container) use ($capsule) {
 };
 
 // $pro
-$container['product_image_directory'] = __DIR__ . '/productImages';
+$container['product_image_directory'] = __DIR__ . '/../productImages';
 
 $container['auth'] = function ($container) {
     return new \App\Auth\Auth;

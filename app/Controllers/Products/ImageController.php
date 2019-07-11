@@ -10,7 +10,6 @@ class ImageController extends Controller{
 public function moveImage($directory,$uploadedFile) {
 
     var_dump($directory);
-    exit;
     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
     $basename = bin2hex(random_bytes(8));
     $filename = sprintf('%s.%0.8s', $basename, $extension);
