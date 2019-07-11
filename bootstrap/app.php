@@ -31,6 +31,8 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
+$container['product_image_directory'] = __DIR__ . '/productImages';
+
 $container['auth'] = function ($container) {
     return new \App\Auth\Auth;
 };
@@ -48,6 +50,16 @@ $container['category']=function ($container) {
 $container['city']=function ($container) {
 
     return new \App\City\CityTableHandler;
+};
+
+$container['inventory']=function ($container) {
+
+    return new \App\Inventory\InventoryTableHandler;
+};
+
+$container['tag']=function ($container) {
+
+    return new \App\Tag\TagTableHandler;
 };
 
 $container['validator'] = function ($container) {
@@ -68,6 +80,14 @@ $container['CategoryController'] = function ($container) {
 
 $container['CityController'] = function ($container) {
     return new \App\Controllers\Citys\CityController($container);
+};
+
+$container['InventoryController'] = function ($container) {
+    return new \App\Controllers\Inventory\InventoryController($container);
+};
+
+$container['TagController'] = function ($container) {
+    return new \App\Controllers\Tag\TagController($container);
 };
 
 require __DIR__ . '/../app/routes.php';

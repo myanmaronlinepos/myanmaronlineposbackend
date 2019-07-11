@@ -7,9 +7,13 @@ use App\Models\Category;
 class CategoryTableHandler
 {
 
- public function getCategorys($user_id)
+ public function getAllCategory($user_id)
  {
 
-  return Category::select('category_name')->where('user_id',$user_id)->get();
+  return Category::where('user_id',$user_id)->get();
+ }
+
+ public function getCategory($product_id) {
+     return Category::find($product_id)->get();
  }
 }

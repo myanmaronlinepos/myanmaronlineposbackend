@@ -46,7 +46,7 @@ class ProductController extends Controller
          
             } else {
          
-             $response->getBody()->write("Something went wrong Validation failed!");
+             $response->getBody()->write(json_encode(false));
          
             }
          
@@ -83,7 +83,7 @@ class ProductController extends Controller
          
             } else {
          
-             $response->getBody()->write("Something went wrong Validation failed!");
+             $response->getBody()->write(json_encode(false));
          
             }
          
@@ -99,7 +99,7 @@ class ProductController extends Controller
             'price_sell'   => $request->getParam('price_sell'),
            ]);
 
-           $response->getBody()->write(json_encode(array('addproductStatsskus'=>true)));
+           $response->getBody()->write(json_encode(true));
      }
  }
 

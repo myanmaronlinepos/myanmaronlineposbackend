@@ -12,6 +12,7 @@ class Inventory extends Model{
     protected $fillable=[
             'inventory_id',
             'product_id',
+            'user_id',
             'quantity'
     ];
 }

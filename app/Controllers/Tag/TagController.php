@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Controllers\Categorys;
+namespace App\Controllers\Tag;
 
 use App\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Tag;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
 
 // api for get Categorys data and response back client
- public function getAllCategory($request, $response)
+ public function getAllTag($request, $response)
  {
     if($this->auth->check()) {
 
         // $user_name=$request->getParam('user_name');
         $user_id=$_SESSION['user'];
-        $categories=$this->category->getAllCategory($user_id);
-        $response->getBody()->write(json_encode($categories));
+        $tag=$this->tag->getAllTag($user_id);
+        $response->getBody()->write(json_encode($tag));
         return $response;
 
     }else {
@@ -27,21 +27,13 @@ class CategoryController extends Controller
 
  }
 
- //get category by product id
- public function getCategory($request,$response) {
-     if($this->auth->check()) {
-        $product_id=$request->getParam('product_id');
-     }
-
- }
-
- public function addCategory($request,$response) {
+ public function addTag($request,$response) {
     if($this->auth->check()) {
        $user_id=$_SESSION['user'];
        
        $validation = $this->validator->validate($request, [
-           'user_id'        => v::noWhitespace()->notEmpty(),
-           'category_name'  => v::noWhitespace()->notEmpty(),
+           'user_id' => v::noWhitespace()->notEmpty(),
+           'tag_name'  => v::notEmpty(),
           ]);
 
           if ($validation->failed()) {
@@ -60,9 +52,9 @@ class CategoryController extends Controller
            return $response;
           }
 
-          $category = Category::create([
-           'user_id'        => $user_id,
-           'category_name'  => $request->getParam('category_name'),
+          $tag = Tag::create([
+           'user_id'   => $user_id,   
+           'tag_name'=> $request->getParam('tag_name'), 
           ]);
 
           $response->getBody()->write(json_encode(true));

@@ -17,9 +17,16 @@ class Product extends Model
   'tag_id',
   'price_cost',
   'price_sell',
+  'imageurl',
  ];
 
-//  public function user() {
-//     return $this->belongsTo('App\Models\User');
-//  }
+ public function setImage($imageUrl)
+ {
+
+  $this->update([
+
+   'imageurl' => $imageUrl,
+  ]);
+ }
+
 }

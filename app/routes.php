@@ -13,12 +13,18 @@ $app->group('/api/guest', function () use($app){
 
 
 $app->group('/api/user', function () use($app) {
-
     $app->post('/signout','AuthController:postSignOut')->setName("auth.signout");
-    $app->get('/get/products','ProductController:getAllProducts')->setName("getproducts");
-    $app->get('/get/product','ProductController:getOneProduct')->setName("getproduct");
-    $app->get('/get/categorys','CategoryController:getAllCategory')->setName("getcategorys");
-    $app->get('/get/city','CityController:getCity')->setName("getCity");
 
+    $app->group('/get', function () use($app){
+        $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
+        $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
+        $app->get('/categories','CategoryController:getAllCategory')->setName("getCategorys");
+        $app->get('/city','CityController:getCity')->setName("getCity");
+    });
+    $app->group('/post', function () use($app) {
+        $app->post('/products','ProductController:postProducts')->setName("postProducts");
+        $app->post('/product','ProductController:addProduct')->setName("addProduct");
+        $app->post('/category','CategoryController:postCategory')->setName("postCategory");
+    });
 })->add(new \App\Middlewares\GuestMiddleware($container));
 
