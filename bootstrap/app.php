@@ -31,6 +31,7 @@ $container['db'] = function ($container) use ($capsule) {
     return $capsule;
 };
 
+// $pro
 $container['product_image_directory'] = __DIR__ . '/productImages';
 
 $container['auth'] = function ($container) {
@@ -88,6 +89,10 @@ $container['InventoryController'] = function ($container) {
 
 $container['TagController'] = function ($container) {
     return new \App\Controllers\Tag\TagController($container);
+};
+
+$container['ImageController'] = function ($container) {
+    return new \App\Controllers\Products\ImageController($container);
 };
 
 require __DIR__ . '/../app/routes.php';

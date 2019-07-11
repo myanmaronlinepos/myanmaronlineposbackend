@@ -13,7 +13,7 @@ class ProductTableHandler
   return Product::where('user_id', $user_id)->get();
  }
 
- public function getProduct($product_id)
+ public function product($product_id)
  {
   return Product::find($product_id);
  }

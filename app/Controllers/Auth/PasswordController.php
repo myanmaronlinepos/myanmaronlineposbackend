@@ -30,7 +30,7 @@ class PasswordController extends Controller{
              
         $this->auth->user()->setPassword($request->getParam('password'));
         
-        $response->getBody()->write("password change successfull");
+        $response->getBody()->write(json_encode(true));
 
 
       return $response;

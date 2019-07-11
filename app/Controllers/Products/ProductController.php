@@ -54,7 +54,7 @@ class ProductController extends Controller
            }
 
            $product_id=$request->getParam('product_id');
-           $product=$this->product->getProduct($product_id);
+           $product=$this->product->product($product_id);
            $response->getBody()->write(json_encode($product));
            return $response;
         }

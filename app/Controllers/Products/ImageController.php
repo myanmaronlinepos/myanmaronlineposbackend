@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Auth;
+namespace App\Controllers\Products;
 
 use App\Controllers\Controller;
 use App\Models\Product;
@@ -7,15 +7,29 @@ use Respect\Validation\Validator as v;
 
 class ImageController extends Controller{
 
+public function moveImage($directory,$uploadedFile) {
+
+    var_dump($directory);
+    exit;
+    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+    $basename = bin2hex(random_bytes(8));
+    $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+    exit;
+    return $directory.DIRECTORY_SEPARATOR.$filename;
+}
+
 public function uploadProductImage($request,$response) {
 
     $directory=$this->product_image_directory;
     $uploadedFiles = $request->getUploadedFiles();
+    $product_id=$request->getParam('product_id');
 
     $uploadedFile = $uploadedFiles['product_image'];
     if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-        $imageUrl = moveUploadedFile($directory, $uploadedFile);
-        $this->image->setImage($imageUrl);
+        $imageUrl = $this->moveImage($directory, $uploadedFile);
+        $this->product->product($product_id)->setImage($imageUrl);
         $response->write(json_encode(true));
     }else {
         $response->write(json_encode(false));
@@ -38,16 +52,6 @@ public function downloadProductImage() {
      $app->response->header('Content-Type', 'content-type: image/'.$type );
      echo $im;
      $im->destroy();
-}
-
-public function moveImage($directory, UploadedFile $uploadedFile) {
-
-$extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-$basename = bin2hex(random_bytes(8));
-$filename = sprintf('%s.%0.8s', $basename, $extension);
-
-$uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
-return $directory.DIRECTORY_SEPARATOR.$filename;
 }
 
 }
