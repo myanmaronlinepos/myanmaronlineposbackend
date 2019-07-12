@@ -26,6 +26,7 @@ $app->group('/api/user', function () use($app) {
         $app->post('/product','ProductController:addProduct')->setName("addProduct");
         $app->post('/product/image','ImageController:uploadProductImage')->setName("uploadProductImage");
         $app->post('/category','CategoryController:postCategory')->setName("postCategory");
+        
     });
 })->add(new \App\Middlewares\GuestMiddleware($container));
 
