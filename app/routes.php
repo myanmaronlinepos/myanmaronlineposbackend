@@ -13,14 +13,15 @@ $app->group('/api/guest', function () use($app){
 
 
 $app->group('/api/user', function () use($app) {
-    $app->post('/signout','AuthController:postSignOut')->setName("auth.signout");
-
+    
     $app->group('/get', function () use($app){
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
         $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
         $app->get('/categories','CategoryController:getAllCategory')->setName("getCategorys");
         $app->get('/city','CityController:getCity')->setName("getCity");
+        $app->get('/product/image','ImageController:downloadProductImage')->setName("downloadProductImage");
     });
+    
     $app->group('/post', function () use($app) {
         $app->post('/products','ProductController:postProducts')->setName("postProducts");
         $app->post('/product','ProductController:addProduct')->setName("addProduct");
@@ -28,5 +29,8 @@ $app->group('/api/user', function () use($app) {
         $app->post('/category','CategoryController:postCategory')->setName("postCategory");
         
     });
+
+    $app->post('/signout','AuthController:postSignOut')->setName("auth.signout");
+
 })->add(new \App\Middlewares\GuestMiddleware($container));
 

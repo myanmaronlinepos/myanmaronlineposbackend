@@ -12,7 +12,13 @@ class ImageController extends Controller{
 
     if($this->auth->check()) {
         $user_id=$_SESSION['user'];
-        $directory=$this->product_image_directory.DIRECTORY_SEPARATOR.$user_id.DIRECTORY_SEPARATOR;
+        $directory=$this->product_image_directory.DIRECTORY_SEPARATOR.$user_id;
+
+        if(!$this->makeDir($directory)){
+            $response->getBody()->write(json_encode(false));
+            return $response;
+        }
+        
         $uploadedFiles = $request->getUploadedFiles();
         $product_id=$request->getParam('product_id');
 
@@ -33,10 +39,7 @@ class ImageController extends Controller{
 
 public function moveImage($directory,$uploadedFile,$filename) {
 
-    var_dump($directory);
-    // exit;
     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-    // $basename = bin2hex(random_bytes(8));
     $basename = $filename;
     $filename = sprintf('%s.%0.8s', $basename, $extension);
 
@@ -44,14 +47,20 @@ public function moveImage($directory,$uploadedFile,$filename) {
     return $directory.DIRECTORY_SEPARATOR.$filename;
 }
 
+function makeDir($path)
+{
+     return is_dir($path) || mkdir($path);
+}
+
 public function downloadProductImage($request,$response) {
 
     if($this->auth->check()) {
 
     $user_id=$_SESSION['user'];
-    $directory=$this->product_image_directory.DIRECTORY_SEPARATOR.$user_id.DIRECTORY_SEPARATOR;    
-    $filename=$request->getParam('product_id');
-    $image = file_get_contents($filename);
+    $product_id=$request->getParam('product_id');
+    $directory=$this->product_image_directory.DIRECTORY_SEPARATOR.$user_id.DIRECTORY_SEPARATOR;
+    $filepath=$directory.$product_id;    
+    $image = file_get_contents($filepath);
 
     if ($image === false) {
         $response->write("Could not find $filename.");
@@ -59,7 +68,7 @@ public function downloadProductImage($request,$response) {
     }
     
     $response->write($image);
-    return $response->withHeader('Content-Type', 'image/jpeg');
+    return $response->withHeader('Content-Type', 'image/');
     }
 }
 
