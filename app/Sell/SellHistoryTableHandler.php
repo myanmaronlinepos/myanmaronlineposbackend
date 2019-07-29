@@ -11,6 +11,5 @@ class SellHandler
 
  public function getSellItem($user_id) {
      
-    // return Tag::where('user_id',$user_id);
  }
 }
