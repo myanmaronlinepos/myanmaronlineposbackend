@@ -17,4 +17,8 @@ class ProductTableHandler
  {
   return Product::find($product_id);
  }
+
+ public function getSellProduct($user_id) {
+    return Product::all()->where('user_id',$user_id);
+ }
 }
