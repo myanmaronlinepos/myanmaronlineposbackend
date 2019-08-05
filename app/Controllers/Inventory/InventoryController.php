@@ -4,8 +4,9 @@ namespace App\Controllers\Inventory;
 
 use App\Controllers\Controller;
 use App\Models\Inventory;
+use App\Models\DataModel\InventoryData;
 
-class CategoryController extends Controller
+class InventoryController extends Controller
 {
 
 // api for get Categorys data and response back client
@@ -15,8 +16,30 @@ class CategoryController extends Controller
 
         // $user_name=$request->getParam('user_name');
         $user_id=$_SESSION['user'];
+        $response_inventory=[];
         $inventory=$this->inventory->getAllProductInventory($user_id);
-        $response->getBody()->write(json_encode($inventory));
+        echo $inventory;
+        foreach($inventory as $element) {
+            $product_id=$element->product_id;
+            $product=$this->product->product($product_id);
+
+            if(!$product) {
+                break;
+            } 
+            $category=$this->category->getCategory($product->category_id);
+
+            if(!$category) {
+                break;
+            }
+
+            $inv=new InventoryData(
+                $product->product_name,
+                $category->category_name,
+                $element->quantity
+           );
+           $response_inventory=$inv;
+        }
+        $response->getBody()->write(json_encode($response_inventory));
         return $response;
 
     }else {

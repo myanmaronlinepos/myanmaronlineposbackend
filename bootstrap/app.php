@@ -95,4 +95,9 @@ $container['ImageController'] = function ($container) {
     return new \App\Controllers\Products\ImageController($container);
 };
 
+$container['SellController'] = function ($container) {
+    return new \App\Controllers\Sell\SellController($container);
+};
+
+
 require __DIR__ . '/../app/routes.php';
