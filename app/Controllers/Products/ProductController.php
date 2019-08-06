@@ -4,6 +4,7 @@ namespace App\Controllers\Products;
 
 use App\Controllers\Controller;
 use App\Models\Product;
+use  App\Models\DataModel\ProductData;
 use Respect\Validation\Validator as v;
 
 class ProductController extends Controller
@@ -16,8 +17,35 @@ class ProductController extends Controller
         if ($this->auth->check()) {
 
             $user_id  = $_SESSION['user'];
-            $products = $this->product->getProducts($user_id)->toJson();
-            $response->getBody()->write($products);
+            $response_products=[];
+            $products = $this->product->getProducts($user_id);
+
+            foreach($products as $product) {
+
+                if(!$product) {
+                    continue;
+                } 
+
+                $category=$this->category->getCategory($product->category_id);
+                if(!$category) {
+                    continue;
+                }
+                $tag=$this->tag->getTag($product->tag_id);
+
+                if(!$tag) {
+                    continue;
+                }
+                $product_tmp=new ProductData(
+                    $product->product_id,
+                    $product->product_name,
+                    $category->category_name,
+                    $tag->tag_name,
+                    $product->imageurl,
+                    $product->price_sell
+                );
+                $response_products[]=$product_tmp;
+            }
+            $response->getBody()->write(json_encode($response_products));
             return $response;
 
         } else {
