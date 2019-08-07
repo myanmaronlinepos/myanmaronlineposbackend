@@ -37,7 +37,7 @@ class InventoryController extends Controller
                 $category->category_name,
                 $element->quantity
            );
-           $response_inventory=$inv;
+           $response_inventory[]=$inv;
         }
         $response->getBody()->write(json_encode($response_inventory));
         return $response;
