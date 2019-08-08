@@ -16,10 +16,10 @@ public function category()
 
  public function getAllCategory($user_id)
  {
-  return Category::where('user_id',$user_id)->get();
+  return Category::select('category_id','category_name')->where('user_id',$user_id)->get();
  }
 
  public function getCategory($category_id) {
-     return Category::where('category_id',$category_id)->first();
+     return Category::select('category_id','category_name')->where('category_id',$category_id)->first();
  }
 }

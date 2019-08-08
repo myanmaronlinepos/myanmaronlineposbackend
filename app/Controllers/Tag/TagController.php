@@ -16,14 +16,13 @@ class TagController extends Controller
         // $user_name=$request->getParam('user_name');
         $user_id=$_SESSION['user'];
         $tag=$this->tag->getAllTag($user_id);
-        // var_dump($tag);
         $response->getBody()->write(json_encode($tag));
-        return $response;
+        return $response->withStatus(200);
 
     }else {
 
         $response->getBody()->write(json_encode(false));
-        return $response;
+        return $response->withStatus(400);
     }
 
  }
@@ -50,7 +49,7 @@ class TagController extends Controller
         
            }
         
-           return $response;
+           return $response->withStatus(400);
           }
 
           $tag = Tag::create([
@@ -59,6 +58,7 @@ class TagController extends Controller
           ]);
 
           $response->getBody()->write(json_encode(true));
+          return $response->withStatus(200);
     }
 }
 

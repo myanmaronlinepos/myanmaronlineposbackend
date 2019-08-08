@@ -50,14 +50,8 @@ class CategoryController extends Controller
         
             $error = $_SESSION['errors'];
             $response->write(json_encode($error));
-        
-           } else {
-        
-            $response->getBody()->write(json_encode(false));
-        
            }
-        
-           return $response;
+           return $response->withStatus(400);
           }
 
           $category = Category::create([
@@ -66,6 +60,7 @@ class CategoryController extends Controller
           ]);
 
           $response->getBody()->write(json_encode(true));
+          return $response->withStatus(200);
     }
 }
 
