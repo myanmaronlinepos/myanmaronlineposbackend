@@ -19,6 +19,12 @@ class Auth
   return User::find($_SESSION['user']);
  }
 
+
+ public function getUserData($user_id) {
+     return User::select('user_name','user_phone','address','storename','city_id','user_role')
+                    ->where('user_id',$user_id)->first();
+ }
+
  public function attempt($email, $password)
  {
 

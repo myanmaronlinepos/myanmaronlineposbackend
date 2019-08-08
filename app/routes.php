@@ -15,6 +15,7 @@ $app->group('/api/guest', function () use($app){
 $app->group('/api/user', function () use($app) {
     
     $app->group('/get', function () use($app){
+        $app->get('/userData','AuthController:getUserData')->setName("getUserData");
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
         $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
         $app->get('/categories','CategoryController:getAllCategory')->setName("getCategorys");
@@ -30,6 +31,7 @@ $app->group('/api/user', function () use($app) {
         $app->post('/product','ProductController:addProduct')->setName("addProduct");
         $app->post('/product/image','ImageController:uploadProductImage')->setName("uploadProductImage");
         $app->post('/category','CategoryController:postCategory')->setName("postCategory");
+        $app->post('/tag','TagController:addTag')->setName("postTag");
         $app->post('/sell/store','SellController:storeSellHistory')->setName("storeSellItem");
         
     });

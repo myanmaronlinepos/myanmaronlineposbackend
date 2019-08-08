@@ -39,7 +39,7 @@ class AuthController extends Controller
 
    }
 
-   return $response;
+   return $response->withStatus(400);
   }
 
   // store user data in database
@@ -116,5 +116,18 @@ class AuthController extends Controller
      }
      $response->getBody()->write(json_encode($responseMsg));
  }
+
+ public function getUserData($request,$response) {
+     if($this->auth->check()) {
+         $data=$this->auth->getUserData($_SESSION['user']);
+         if($data) {
+             $response->getBody()->write(json_encode($data));
+             return $response->withStatus(200);
+         }
+     }
+     $response->getBody()->write(json_encode(false));
+     return $response->withStatus(400);
+ }
+
 
 }
