@@ -18,6 +18,7 @@ $app->group('/api/user', function () use($app) {
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
         $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
         $app->get('/categories','CategoryController:getAllCategory')->setName("getCategorys");
+        $app->get('/tags','TagController:getAllTag')->setName("getTags");
         $app->get('/city','CityController:getCity')->setName("getCity");
         $app->get('/sellProduct','SellController:getAllSell')->setName("getSellProduct");
         $app->get('/inventory','InventoryController:getAllProductInventory')->setName("getInventory");

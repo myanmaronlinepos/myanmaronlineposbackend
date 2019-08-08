@@ -10,8 +10,8 @@ class TagTableHandler
 
 
  public function getAllTag($user_id) {
-     
-    return Tag::where('user_id',$user_id);
+
+    return Tag::select('tag_id','tag_name')->where('user_id',$user_id)->get();
  }
 
  public function getTag($tag_id) {

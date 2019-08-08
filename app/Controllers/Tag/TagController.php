@@ -16,6 +16,7 @@ class TagController extends Controller
         // $user_name=$request->getParam('user_name');
         $user_id=$_SESSION['user'];
         $tag=$this->tag->getAllTag($user_id);
+        // var_dump($tag);
         $response->getBody()->write(json_encode($tag));
         return $response;
 
