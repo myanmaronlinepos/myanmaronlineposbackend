@@ -18,11 +18,9 @@ class InventoryController extends Controller
         $user_id=$_SESSION['user'];
         $response_inventory=[];
         $inventory=$this->inventory->getAllProductInventory($user_id);
-        echo $inventory;
         foreach($inventory as $element) {
             $product_id=$element->product_id;
             $product=$this->product->product($product_id);
-
             if(!$product) {
                 break;
             } 
@@ -33,6 +31,7 @@ class InventoryController extends Controller
             }
 
             $inv=new InventoryData(
+                $element->inventory_id,
                 $product->product_name,
                 $category->category_name,
                 $element->quantity
@@ -40,13 +39,12 @@ class InventoryController extends Controller
            $response_inventory[]=$inv;
         }
         $response->getBody()->write(json_encode($response_inventory));
-        return $response;
+        return $response->withStatus(200);
 
-    }else {
-
-        $response->getBody()->write(json_encode(false));
-        return $response;
     }
+
+    $response->getBody()->write(json_encode(false));
+    return $response->withStatus(400);
 
  }
 
