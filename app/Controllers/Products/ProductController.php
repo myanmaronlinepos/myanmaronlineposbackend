@@ -122,9 +122,7 @@ class ProductController extends Controller
 
             $product_id=$product->product_id;
             $this->InventoryController->addInventory($request,$response);
-            $response->getBody()->write(json_encode(true));
-            
-            return $response;
+            // $response->getBody()->write(json_encode(true));
         }
     }
 

@@ -5,6 +5,7 @@ namespace App\Controllers\Inventory;
 use App\Controllers\Controller;
 use App\Models\Inventory;
 use App\Models\DataModel\InventoryData;
+use Respect\Validation\Validator as v;
 
 class InventoryController extends Controller
 {
@@ -53,7 +54,6 @@ class InventoryController extends Controller
        $user_id=$_SESSION['user'];
        
        $validation = $this->validator->validate($request, [
-           'user_id' => v::noWhitespace()->notEmpty(),
            'product_id'=> v::noWhitespace()->notEmpty(),
            'quantity'  => v::noWhitespace(),
           ]);
@@ -71,7 +71,7 @@ class InventoryController extends Controller
         
            }
         
-          return $response.withStatus(400);           
+          return $response->withStatus(400);           
           }
 
           $inventory = Inventory::create([
@@ -81,7 +81,7 @@ class InventoryController extends Controller
           ]);
 
           $response->getBody()->write(json_encode(true));
-          return $response.withStatus(200);
+          return $response->withStatus(200);
     }
 }
 
