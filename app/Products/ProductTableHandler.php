@@ -19,6 +19,6 @@ class ProductTableHandler
  }
 
  public function getSellProduct($user_id) {
-    return Product::all()->where('user_id',$user_id)->get();
+    return Product::where('user_id',$user_id)->get();
  }
 }
