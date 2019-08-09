@@ -35,7 +35,7 @@ class SellController extends Controller
                     $item->price_cost,
                     $item->price_sell
                 );
-                $response_product=$product;
+                $response_product[]=$product;
             }
         }
         $response->getBody()->write(json_encode($response_product));
