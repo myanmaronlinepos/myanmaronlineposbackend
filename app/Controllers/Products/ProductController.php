@@ -120,7 +120,10 @@ class ProductController extends Controller
                 'imageurl'     => $request->getParam('imageurl'),
             ]);
 
+            $product_id=$product->product_id;
+            $this->InventoryController->addInventory($request,$response);
             $response->getBody()->write(json_encode(true));
+            
             return $response;
         }
     }
