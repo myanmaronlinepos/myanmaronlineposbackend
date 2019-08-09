@@ -4,6 +4,7 @@ namespace App\Controllers\Tag;
 
 use App\Controllers\Controller;
 use App\Models\Tag;
+use Respect\Validation\Validator as v;
 
 class TagController extends Controller
 {
@@ -32,7 +33,6 @@ class TagController extends Controller
        $user_id=$_SESSION['user'];
        
        $validation = $this->validator->validate($request, [
-           'user_id' => v::noWhitespace()->notEmpty(),
            'tag_name'  => v::notEmpty(),
           ]);
 

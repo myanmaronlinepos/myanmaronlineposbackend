@@ -4,6 +4,7 @@ namespace App\Controllers\Categorys;
 
 use App\Controllers\Controller;
 use App\Models\Category;
+use Respect\Validation\Validator as v;
 
 class CategoryController extends Controller
 {
@@ -40,8 +41,8 @@ class CategoryController extends Controller
        $user_id=$_SESSION['user'];
        
        $validation = $this->validator->validate($request, [
-           'user_id'        => v::noWhitespace()->notEmpty(),
-           'category_name'  => v::noWhitespace()->notEmpty(),
+        //    'user_id'        => v::noWhitespace()->notEmpty(),
+           'category_name'  => v::notEmpty(),
           ]);
 
           if ($validation->failed()) {

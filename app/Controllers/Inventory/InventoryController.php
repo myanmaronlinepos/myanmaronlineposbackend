@@ -55,7 +55,7 @@ class InventoryController extends Controller
        $validation = $this->validator->validate($request, [
            'user_id' => v::noWhitespace()->notEmpty(),
            'product_id'=> v::noWhitespace()->notEmpty(),
-           'quantity'  => v::noWhitespace()->notEmpty(),
+           'quantity'  => v::noWhitespace(),
           ]);
 
           if ($validation->failed()) {
@@ -71,7 +71,7 @@ class InventoryController extends Controller
         
            }
         
-           return $response;
+          return $response.withStatus(400);           
           }
 
           $inventory = Inventory::create([
@@ -81,6 +81,7 @@ class InventoryController extends Controller
           ]);
 
           $response->getBody()->write(json_encode(true));
+          return $response.withStatus(200);
     }
 }
 
