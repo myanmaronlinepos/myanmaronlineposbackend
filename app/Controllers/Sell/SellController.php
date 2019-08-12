@@ -53,6 +53,7 @@ class SellController extends Controller
      $total=$request->getParam('total_price');
      $productList=$request->getParam('productList');
      $user_id=$_SESSION['user'];
+     
      $sellhistory=SellHistory::create([
         'user_id'=>$user_id,
      ]);
