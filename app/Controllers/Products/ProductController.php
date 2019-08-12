@@ -120,9 +120,12 @@ class ProductController extends Controller
                 'imageurl'     => $request->getParam('imageurl'),
             ]);
 
-            $product_id=$product->product_id;
-            $this->InventoryController->addInventory($request,$response);
-            // $response->getBody()->write(json_encode(true));
+            $inventory = Inventory::create([
+                'user_id'   => $user_id,   
+                'product_id'=> $request->$product->product_id,  
+                'qunatity'  => 0,
+               ]);
+            $response->getBody()->write(json_encode(true));
         }
     }
 
