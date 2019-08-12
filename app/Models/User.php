@@ -39,5 +39,15 @@ class User extends Model
  public function city() {
     return $this->belongsTo('App\Models\City','city_id');
 }
+
+public function updateUserData($user_name,$user_email,$user_phone,$address,$city_id) {
+    $this->update([
+        'user_name' => $user_name,
+        'user_email'=> $user_email,
+        'user_phone'=> $user_phone,
+        'address'   => $address,
+        'city_id'   => $city_id
+    ]);
+}
  
 }

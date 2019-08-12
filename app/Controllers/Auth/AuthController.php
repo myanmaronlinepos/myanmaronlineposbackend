@@ -129,5 +129,52 @@ class AuthController extends Controller
      return $response->withStatus(400);
  }
 
+ public function updateUserData($request,$response) {
+
+    if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+        
+        $validation = $this->validator->validate($request, [
+            'user_name'=> v::notEmpty(),
+            'user_email'  => v::noWhitespace()->notEmpty(),
+            'user_phone'  => v::noWhitespace()->notEmpty(),
+            'address'     => v::notEmpty(),
+            'city_id'     => v::noWhitespace()->notEmpty()
+           ]);
+ 
+           if ($validation->failed()) {
+ 
+            if (isset($_SESSION['errors'])) {
+         
+             $error = $_SESSION['errors'];
+             $response->write(json_encode($error));
+         
+            } else {
+         
+             $response->getBody()->write(json_encode(false));
+         
+            }
+         
+           return $response->withStatus(400);           
+           }
+ 
+           $user=$this->auth->user();
+           $user->setUserData(
+               $request->user_name,
+               $request->user_email,
+               $request->user_phone,
+               $request->address,
+               $request->city_id
+           );
+ 
+           $response->getBody()->write(json_encode(true));
+           return $response->withStatus(200);
+
+     }else {
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
+    }
+}
 
 }

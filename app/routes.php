@@ -40,6 +40,8 @@ $app->group('/api/user', function () use($app) {
         $app->post('/delete_category','CategoryController:deleteCategory')->setName("deleteCategory");
         $app->post('/delete_tag','TagController:deleteTag')->setName("deleteTag");
 
+        $app->post('/update_user_data','AuthController:updateUserData')->setName("updateUserData");
+
         
 
         
