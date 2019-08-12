@@ -33,6 +33,15 @@ $app->group('/api/user', function () use($app) {
         $app->post('/category','CategoryController:addCategory')->setName("postCategory");
         $app->post('/tag','TagController:addTag')->setName("postTag");
         $app->post('/sell/store','SellController:storeSellHistory')->setName("storeSellItem");
+        $app->post('/update_tag','TagController:updateTagName')->setName("updateTag");
+        $app->post('/update_category','CategoryController:updateCategory')->setName("updateCategory");
+        $app->post('/update_inventory','InventoryController:updateInventory')->setName("updateInventory");
+
+        $app->post('/delete_category','CategoryController:deleteCategory')->setName("deleteCategory");
+        $app->post('/delete_tag','TagController:deleteTag')->setName("deleteTag");
+
+        
+
         
     });
 

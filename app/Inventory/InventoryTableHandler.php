@@ -17,4 +17,8 @@ class InventoryTableHandler
  public function getInventory($product_id) {
     return Inventory::where('product_id',$product_id)->first();
  }
+
+ public function inventory($inventory_id) {
+   return Inventory::find($inventory_id);
+ }
 }

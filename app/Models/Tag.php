@@ -14,4 +14,11 @@ class Tag extends Model{
             'user_id',
             'tag_name',
     ];
+
+public function setTagName($tag_name)
+  {
+  $this->update([
+   'tag_name' =>$tag_name
+  ]);
+ }
 }

@@ -18,4 +18,9 @@ class TagTableHandler
    return Tag::where('tag_id',$tag_id)->first();
 }
 
+public function tag($tag_id) {
+
+   return Tag::find($tag_id);
+ }
+ 
 }

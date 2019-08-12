@@ -82,8 +82,51 @@ class InventoryController extends Controller
 
           $response->getBody()->write(json_encode(true));
           return $response->withStatus(200);
+          
+    }else {
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
     }
 }
 
+public function updateInventory($request,$response) {
+
+    if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+        
+        $validation = $this->validator->validate($request, [
+            'inventory_id'=> v::noWhitespace()->notEmpty(),
+            'quantity'  => v::noWhitespace(),
+           ]);
+ 
+           if ($validation->failed()) {
+ 
+            if (isset($_SESSION['errors'])) {
+         
+             $error = $_SESSION['errors'];
+             $response->write(json_encode($error));
+         
+            } else {
+         
+             $response->getBody()->write(json_encode(false));
+         
+            }
+         
+           return $response->withStatus(400);           
+           }
+ 
+           $inventory=$this->inventory->inventory($request->getParam("inventory_id"));
+           $inventory->setQuantity($request->getParam("quantity"));
+ 
+           $response->getBody()->write(json_encode(true));
+           return $response->withStatus(200);
+
+     }else {
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
+    }
+}
 
 }

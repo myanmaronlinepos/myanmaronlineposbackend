@@ -15,4 +15,11 @@ class Inventory extends Model{
             'user_id',
             'quantity'
     ];
+
+public function setQuantity($quantity)
+  {
+  $this->update([
+   'quantity' =>$quantity
+  ]);
+ }
 }

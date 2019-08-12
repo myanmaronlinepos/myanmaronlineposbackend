@@ -62,8 +62,86 @@ class CategoryController extends Controller
 
           $response->getBody()->write(json_encode(true));
           return $response->withStatus(200);
+    }else {
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
     }
 }
 
+public function updateCategory($request,$response) {
+    if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+        
+        $validation = $this->validator->validate($request, [
+            'category_id'=> v::noWhitespace()->notEmpty(),
+            'category_name'  => v::notEmpty(),
+           ]);
+ 
+           if ($validation->failed()) {
+ 
+            if (isset($_SESSION['errors'])) {
+         
+             $error = $_SESSION['errors'];
+             $response->write(json_encode($error));
+         
+            } else {
+         
+             $response->getBody()->write(json_encode(false));
+         
+            }
+         
+           return $response->withStatus(400);           
+           }
+ 
+           $category=$this->category->category($request->getParam("category_id"));
+           $category->setCategoryName($request->getParam("category_name"));
+ 
+           $response->getBody()->write(json_encode(true));
+           return $response->withStatus(200);
+     }else {
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
+    }
+ }
+
+ public function deleteCategory($request,$response) {
+    if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+        
+        $validation = $this->validator->validate($request, [
+            'category_id'=> v::noWhitespace()->notEmpty(),
+           ]);
+ 
+           if ($validation->failed()) {
+ 
+            if (isset($_SESSION['errors'])) {
+         
+             $error = $_SESSION['errors'];
+             $response->write(json_encode($error));
+         
+            } else {
+         
+             $response->getBody()->write(json_encode(false));
+         
+            }
+         
+           return $response->withStatus(400);           
+           }
+ 
+           $category=$this->category->category($request->getParam("category_id"));
+           $category->delete();
+ 
+           $response->getBody()->write(json_encode(true));
+           return $response->withStatus(200);
+
+     }else {
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
+    }
+
+ }
 
 }

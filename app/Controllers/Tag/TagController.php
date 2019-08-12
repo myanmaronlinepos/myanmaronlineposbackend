@@ -62,5 +62,80 @@ class TagController extends Controller
     }
 }
 
+public function updateTagName($request,$response) {
+    if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+        
+        $validation = $this->validator->validate($request, [
+            'tag_id'=> v::noWhitespace()->notEmpty(),
+            'tag_name'  => v::notEmpty(),
+           ]);
+ 
+           if ($validation->failed()) {
+ 
+            if (isset($_SESSION['errors'])) {
+         
+             $error = $_SESSION['errors'];
+             $response->write(json_encode($error));
+         
+            } else {
+         
+             $response->getBody()->write(json_encode(false));
+         
+            }
+         
+           return $response->withStatus(400);           
+           }
+ 
+           $tag=$this->tag->tag($request->getParam("tag_id"));
+           $tag->setTagName($request->getParam("tag_name"));
+ 
+           $response->getBody()->write(json_encode(true));
+           return $response->withStatus(200);
 
+        }else {
+
+            $response->getBody()->write(json_encode(false));
+            return $response->withStatus(400);
+        }
+    }
+
+    public function deleteTag($request,$response) {
+
+        if($this->auth->check()) {
+            $user_id=$_SESSION['user'];
+            
+            $validation = $this->validator->validate($request, [
+                'tag_id'=> v::noWhitespace()->notEmpty(),
+               ]);
+     
+               if ($validation->failed()) {
+     
+                if (isset($_SESSION['errors'])) {
+             
+                 $error = $_SESSION['errors'];
+                 $response->write(json_encode($error));
+             
+                } else {
+             
+                 $response->getBody()->write(json_encode(false));
+             
+                }
+             
+               return $response->withStatus(400);           
+               }
+     
+               $tag=$this->tag->tag($request->getParam("tag_id"));
+               $tag->delete();
+     
+               $response->getBody()->write(json_encode(true));
+               return $response->withStatus(200);
+               
+            }else {
+    
+                $response->getBody()->write(json_encode(false));
+                return $response->withStatus(400);
+            }
+
+    }
 }
