@@ -15,26 +15,35 @@ $app->group('/api/guest', function () use($app){
 $app->group('/api/user', function () use($app) {
     
     $app->group('/get', function () use($app){
-        $app->get('/userData','AuthController:getUserData')->setName("getUserData");
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
         $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
+        $app->get('/product/image','ImageController:downloadProductImage')->setName("downloadProductImage");
+        
+        $app->get('/userData','AuthController:getUserData')->setName("getUserData");
         $app->get('/categories','CategoryController:getAllCategory')->setName("getCategorys");
+
         $app->get('/tags','TagController:getAllTag')->setName("getTags");
         $app->get('/city','CityController:getCity')->setName("getCity");
+
         $app->get('/sellProduct','SellController:getAllSell')->setName("getSellProduct");
+        $app->get('/sellitems','SellController:getAllSellItem')->setName("getSellItem");
+
         $app->get('/inventory','InventoryController:getAllProductInventory')->setName("getInventory");
-        $app->get('/product/image','ImageController:downloadProductImage')->setName("downloadProductImage");
+        
     });
     
     $app->group('/post', function () use($app) {
         $app->post('/products','ProductController:postProducts')->setName("postProducts");
         $app->post('/product','ProductController:addProduct')->setName("addProduct");
         $app->post('/product/image','ImageController:uploadProductImage')->setName("uploadProductImage");
+        
         $app->post('/category','CategoryController:addCategory')->setName("postCategory");
+        $app->post('/update_category','CategoryController:updateCategory')->setName("updateCategory");
+        $app->post('/assignProduct','CategoryController:assignProduct')->setName("assignProduct");
+
         $app->post('/tag','TagController:addTag')->setName("postTag");
         $app->post('/sell/store','SellController:storeSellHistory')->setName("storeSellItem");
         $app->post('/update_tag','TagController:updateTagName')->setName("updateTag");
-        $app->post('/update_category','CategoryController:updateCategory')->setName("updateCategory");
         $app->post('/update_inventory','InventoryController:updateInventory')->setName("updateInventory");
 
         $app->post('/delete_category','CategoryController:deleteCategory')->setName("deleteCategory");

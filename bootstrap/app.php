@@ -11,8 +11,8 @@ $app = new \Slim\App([
             'driver'     => 'mysql',
             'host'       => 'localhost',
             'database'   => 'myanmaronlinepos',
-            'username'   => 'root',
-            'password'   => 'root',
+            'username'   => 'chit',
+            'password'   => 'chitnanko',
             'charset'    => 'utf8',
             'collection' => 'utf8_unicode_ci',
             'prefix'     => '',
@@ -61,6 +61,14 @@ $container['inventory']=function ($container) {
 $container['tag']=function ($container) {
 
     return new \App\Tag\TagTableHandler;
+};
+
+$container['sellhistory']=function ($container) {
+    return new \App\Sell\SellHistoryTableHandler;
+};
+
+$container['soldoutitem']=function ($container) {
+    return new \App\Sell\SoldOutItemTableHandler;
 };
 
 $container['validator'] = function ($container) {

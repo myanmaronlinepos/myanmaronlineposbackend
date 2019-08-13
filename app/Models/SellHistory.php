@@ -15,5 +15,4 @@ class SellHistory extends Model{
             'created_at',
             'updated_at'
     ];
-
 }

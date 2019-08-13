@@ -144,4 +144,47 @@ public function updateCategory($request,$response) {
 
  }
 
+ public function assignProduct($request,$response) {
+     if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+
+        $validation = $this->validator->validate($request, [
+            'assignProductList'  => v::notEmpty(),
+           ]);
+ 
+           if ($validation->failed()) {
+ 
+            if (isset($_SESSION['errors'])) {
+         
+             $error = $_SESSION['errors'];
+             $response->write(json_encode($error));
+         
+            } else {
+         
+             $response->getBody()->write(json_encode(false));
+         
+            }
+         
+           return $response->withStatus(400);           
+           }
+
+        $productList=$request->getParam("assignProductList");
+        var_dump($productList);
+        if($productList)
+            foreach($productList as $assignProduct) {
+        
+                $product_id=$assignProduct->product_id;
+                $category_id=$assignProduct->category_id;
+                $product=$this->product->product($product_id);
+                $product->updateCategoryId($category_id);
+            }
+
+        $response->getBody()->write(json_encode(true));
+        return $response->withStatus(200);
+     }
+
+     $response->getBody()->write(json_encode(false));
+     return $response->withStatus(400);
+ }
+
 }

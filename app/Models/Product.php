@@ -30,4 +30,10 @@ class Product extends Model
   ]);
  }
 
+ public function updateCategoryId($category_id) {
+     $this->update([
+        'category_id' => $category_id
+     ]);
+ }
+
 }

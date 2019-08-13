@@ -5,6 +5,7 @@ namespace App\Controllers\Sell;
 use App\Controllers\Controller;
 use App\Models\SellHistory;
 use App\Models\SoldOutProduct;
+use App\Models\DataModel\SellItem;
 use App\Models\DataModel\SellProduct;
 
 class SellController extends Controller
@@ -39,6 +40,7 @@ class SellController extends Controller
             
             if($category_name && $tag_name && $inventory) {
                 $product=new SellProduct(
+                    $item->product_id,
                     $item->product_name,
                     $category_name,
                     $tag_name,
@@ -60,36 +62,97 @@ class SellController extends Controller
 
  }
 
+ public function getAllSellItem($request,$response) {
+     if($this->auth->check()) {
+        $user_id=$_SESSION['user'];
+        $sell_historys=$this->sellhistory->getSellItem($user_id);
+        $all_sell_items=[];
+
+        foreach($sell_historys as $history) {
+
+            if($history) {
+               $sell_items=$this->soldoutitem->getAllSellItem($history->sellhistory_id);
+
+               foreach($sell_items as $item) {
+                   $product_name=$this->product->product($item->product_id)->product_name;
+                   $sell=new SellItem(
+                    $item->sellitem_id,
+                    $history->sellhistory_id,
+                    $item->product_id,
+                    $product_name,
+                    $item->quantity,
+                    $item->cost_price,
+                    $item->sell_price,
+                    $item->total_sell,
+                    $item->total_cost,
+                    $item->profit
+                   );
+                   $all_sell_items[]=$sell;
+               }
+               
+            }
+        }
+        $response->getBody()->write(json_encode($all_sell_items));
+        return $response;
+     }
+
+     $response->getBody()->write(json_encode(false));
+     return $response->withStatus(200);
+ }
+
  public function storeSellHistory($request,$response) {
-     $total=$request->getParam('total_price');
-     $productList=$request->getParam('productList');
+     if($this->auth->check()) {
+
      $user_id=$_SESSION['user'];
+     $productList=$request->getParam('productList');
      
+     if(!$productList){
+        return $response->withStatus(200);
+     }
+
      $sellhistory=SellHistory::create([
         'user_id'=>$user_id,
      ]);
+
    
      if($sellhistory) {
          $data=null;
          $sellhistory_id=$sellhistory->sellhistory_id;
+
          foreach($productList as $item) {
             if($item) {
-               $element=array(
-                   'sellhistory_id'=>$sellhistory_id,
-                   'product_id'=>$item['product_id'],
-                   'quantity'=>$item['quantity'],
-                   'total_price'=>$total
-               );
+               $quantity=$item['quantity'];
+               $product_id=$item['product_id'];
+               $total_sell=$item['total_sell'];
+               $total_cost=$item['total_cost'];
+               $profit=$item['profit'];
+               $cost_price=$item['cost_price'];
+               $sell_price=$item['sell_price'];
 
-               $data[]=$element;
+               $inventory=$this->inventory->getInventory($product_id);
+               $quantity=(int)$inventory->quantity - (int)$quantity;
+               $inventory->setQuantity($quantity);
+
+               $result=SoldOutProduct::create([
+                   'sellhistory_id'=>$sellhistory_id,
+                   'product_id'=>$product_id,
+                   'quantity'=>$quantity,
+                   'cost_price' =>$cost_price,
+                   'sell_price' =>$sell_price,
+                   'total_sell'=>$total_sell,
+                   'total_cost'=>$total_cost,
+                   'profit' => $profit
+               ]);
             }
          }
-         $result=SoldOutProduct::insert($data);
+        
          $response->getBody()->write(json_encode(true));
-         return $response;
+         return $response->withStatus(200);
      }
+    }
+
      $response->getBody()->write(json_encode(false));
-     return $response;
+     return $response->withStatus(200);
 
  }
 
