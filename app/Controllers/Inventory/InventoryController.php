@@ -19,22 +19,27 @@ class InventoryController extends Controller
         $user_id=$_SESSION['user'];
         $response_inventory=[];
         $inventory=$this->inventory->getAllProductInventory($user_id);
+        $category_name="assign";
+        // var_dump($inventory);
+
         foreach($inventory as $element) {
             $product_id=$element->product_id;
             $product=$this->product->product($product_id);
+            
             if(!$product) {
                 break;
             } 
+    
             $category=$this->category->getCategory($product->category_id);
 
-            if(!$category) {
-                break;
+            if($category) {
+                $category_name=$category->category_name;
             }
-
+            
             $inv=new InventoryData(
                 $element->inventory_id,
                 $product->product_name,
-                $category->category_name,
+                $category_name,
                 $element->quantity
            );
            $response_inventory[]=$inv;

@@ -20,17 +20,28 @@ class SellController extends Controller
         $response_product=[];
         foreach($sellProduct as $item) {
 
+            $category_name="assign";
+            $tag_name="assign";
             $category_id=$item->category_id;
             $tag_id=$item->tag_id;
             $category=$this->category->getCategory($category_id);
+
+            if($category) {
+                $category_name=$category->category_name;
+            }
+
             $tag=$this->tag->getTag($tag_id);
+
+            if($tag) {
+                $tag_name=$tag->tag_name;
+            }
             $inventory=$this->inventory->getInventory($item->product_id);
             
-            if($category && $tag && $inventory) {
+            if($category_name && $tag_name && $inventory) {
                 $product=new SellProduct(
                     $item->product_name,
-                    $category->category_name,
-                    $tag->tag_name,
+                    $category_name,
+                    $tag_name,
                     $inventory->quantity,
                     $item->price_cost,
                     $item->price_sell

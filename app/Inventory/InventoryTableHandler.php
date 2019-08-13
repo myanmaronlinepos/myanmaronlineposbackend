@@ -11,7 +11,7 @@ class InventoryTableHandler
  public function getAllProductInventory($user_id)
  {
 
-   return Inventory::where('user_id',$user_id)->get();
+   return Inventory::select('inventory_id','product_id','quantity')->where('user_id',$user_id)->get();
  }
 
  public function getInventory($product_id) {

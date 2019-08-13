@@ -22,6 +22,7 @@ class ProductData {
         $price_sell
         )
     {
+        $this->product_id=$product_id;
         $this->product_name=$product_name;
         $this->category_name=$category_name;
         $this->tag_name=$tag_name;

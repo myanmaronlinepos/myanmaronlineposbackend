@@ -15,7 +15,7 @@ class ProductTableHandler
 
  public function product($product_id)
  {
-  return Product::where('product_id',$product_id)->first();
+  return Product::select('product_name','category_id')->where('product_id',$product_id)->first();
  }
 
  public function getSellProduct($user_id) {
