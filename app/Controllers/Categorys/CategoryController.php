@@ -169,14 +169,12 @@ public function updateCategory($request,$response) {
            }
 
         $productList=$request->getParam("assignProductList");
-        var_dump($productList);
-        if($productList)
-            foreach($productList as $assignProduct) {
-        
-                $product_id=$assignProduct->product_id;
-                $category_id=$assignProduct->category_id;
-                $product=$this->product->product($product_id);
-                $product->updateCategoryId($category_id);
+
+        foreach($productList as $assignProduct) {
+                $product_id=$assignProduct['product_id'];
+                $category_id=$assignProduct['category_id'];
+                $product=$this->product->getProduct($product_id);
+                $result=$product->updateCategoryId($category_id);
             }
 
         $response->getBody()->write(json_encode(true));
