@@ -12,6 +12,7 @@ class SellItem {
     public $profit;
     public $cost_price;
     public $sell_price;
+    public $created_at;
     /**
      * Class constructor.
      */
@@ -25,7 +26,8 @@ class SellItem {
         $sell_price,
         $total_sell,
         $total_cost,
-        $profit
+        $profit,
+        $created_at
         )
     {
         $this->sellitem_id=$sellitem_id;
@@ -38,6 +40,7 @@ class SellItem {
         $this->total_sell=$total_sell;
         $this->total_cost=$total_cost;
         $this->profit=$profit;
+        $this->created_at=$created_at;
 
     }
 }

@@ -85,7 +85,8 @@ class SellController extends Controller
                     $item->sell_price,
                     $item->total_sell,
                     $item->total_cost,
-                    $item->profit
+                    $item->profit,
+                    $item->created_at
                    );
                    $all_sell_items[]=$sell;
                }
@@ -130,8 +131,8 @@ class SellController extends Controller
                $sell_price=$item['sell_price'];
 
                $inventory=$this->inventory->getInventory($product_id);
-               $quantity=(int)$inventory->quantity - (int)$quantity;
-               $inventory->setQuantity($quantity);
+               $inv_quantity=(int)$inventory->quantity - (int)$quantity;
+               $inventory->setQuantity($inv_quantity);
 
                $result=SoldOutProduct::create([
                    'sellhistory_id'=>$sellhistory_id,
