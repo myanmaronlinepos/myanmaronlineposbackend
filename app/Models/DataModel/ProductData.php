@@ -7,7 +7,8 @@ class ProductData {
     public $category_name;
     public $tag_name;
     public $imageurl;
-    public $price_sell;
+    public $sell_price;
+    public $cost_price;
     public $created_at;
     public $updated_at;
     /**
@@ -19,14 +20,16 @@ class ProductData {
         $category_name,
         $tag_name,
         $imageurl,
-        $price_sell
+        $sell_price,
+        $cost_price
         )
     {
         $this->product_id=$product_id;
         $this->product_name=$product_name;
         $this->category_name=$category_name;
         $this->tag_name=$tag_name;
-        $this->price_sell=$price_sell;
+        $this->sell_price=$sell_price;
+        $this->cost_price=$cost_price;
     }
 }
 

@@ -47,7 +47,8 @@ class ProductController extends Controller
                     $category_name,
                     $tag_name,
                     $product->imageurl,
-                    $product->price_sell
+                    $product->price_sell,
+                    $product->price_cost
                 );
                 $response_products[]=$product_tmp;
             }
