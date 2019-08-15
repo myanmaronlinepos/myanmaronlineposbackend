@@ -9,6 +9,19 @@ use Respect\Validation\Validator as v;
 class AuthController extends Controller
 {
 
+public function checkEmail($request,$response) {
+    $validation = $this->validator->validate($requst, [
+        'user_email' => v::noWhitespace()->notEmpty()->email()->emailAvailable()
+    ]);
+
+    if($validation->failed()) {
+        $response->getBody()->write(json_encode(false));
+        return $response;   
+    }
+
+    $response->getBody()->write(json_encode(true));
+    return $response;
+}
 // api for singup data and store that data in database
  public function postSignup($request, $response)
  {
@@ -16,7 +29,7 @@ class AuthController extends Controller
   // validate user post value
   $validation = $this->validator->validate($request, [
    'user_name'     => v::notEmpty()->alpha(),
-   'user_email'    => v::noWhitespace()->notEmpty()->email(),
+   'user_email'    => v::noWhitespace()->notEmpty()->email()->emailAvailable(),
    'user_password' => v::notEmpty(),
    'user_phone'    => v::notEmpty()->noWhitespace(),
    'address'       => v::notEmpty(),

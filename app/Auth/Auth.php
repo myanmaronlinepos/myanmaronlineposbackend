@@ -21,7 +21,7 @@ class Auth
 
 
  public function getUserData($user_id) {
-     return User::select('user_name','user_phone','address','storename','city_id','user_role')
+     return User::select('user_name','user_email','user_phone','address','storename','city_id','user_role')
                     ->where('user_id',$user_id)->first();
  }
 

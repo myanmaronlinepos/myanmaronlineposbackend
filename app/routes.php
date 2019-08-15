@@ -7,6 +7,8 @@ $app->group('/api/guest', function () use($app){
     
     $app->get('/allcity','CityController:getAllCity')->setName("getAllCity");
     $app->post('/signup','AuthController:postSignup')->setName("auth.signup");
+
+    $app->post('/checkEmail','AuthController:checkEmail')->setName("checkemail");
     
     $app->post('/signin','AuthController:postSignin')->setName("auth.signin");
 })->add(new \App\Middlewares\UserMiddleware($container));
@@ -20,6 +22,8 @@ $app->group('/api/user', function () use($app) {
         $app->get('/product/image','ImageController:downloadProductImage')->setName("downloadProductImage");
         
         $app->get('/userData','AuthController:getUserData')->setName("getUserData");
+        $app->get('/userImage','UserImageController:downloadUserImage')->setName("getUserImage");
+
         $app->get('/categories','CategoryController:getAllCategory')->setName("getCategorys");
 
         $app->get('/tags','TagController:getAllTag')->setName("getTags");
@@ -33,6 +37,9 @@ $app->group('/api/user', function () use($app) {
     });
     
     $app->group('/post', function () use($app) {
+
+        $app->post('/userImage','UserImageController:uploadUserImage')->setName("postUserImage");
+
         $app->post('/products','ProductController:postProducts')->setName("postProducts");
         $app->post('/product','ProductController:addProduct')->setName("addProduct");
         $app->post('/product/image','ImageController:uploadProductImage')->setName("uploadProductImage");
@@ -50,9 +57,6 @@ $app->group('/api/user', function () use($app) {
         $app->post('/delete_tag','TagController:deleteTag')->setName("deleteTag");
 
         $app->post('/update_user_data','AuthController:updateUserData')->setName("updateUserData");
-
-        
-
         
     });
 

@@ -3,7 +3,7 @@
 namespace App\Validation\Rules;
 
 use Respect\Validation\Rules\AbstractRule;
-use App\Model\User;
+use App\Models\User;
 
 class EmailAvailable extends AbstractRule{
 

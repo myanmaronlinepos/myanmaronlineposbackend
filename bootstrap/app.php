@@ -4,6 +4,8 @@ session_start();
 //testing
 require __DIR__ . '/../vendor/autoload.php';
 
+use Respect\Validation\Validator as v;
+
 $app = new \Slim\App([
     'settings' => [
         'displayErrorDetails' => true,
@@ -33,6 +35,7 @@ $container['db'] = function ($container) use ($capsule) {
 
 // $pro
 $container['product_image_directory'] = __DIR__ . '/../productImages';
+$container['user_image_directory']=__DIR__.'/../userImage';
 
 $container['auth'] = function ($container) {
     return new \App\Auth\Auth;
@@ -103,9 +106,13 @@ $container['ImageController'] = function ($container) {
     return new \App\Controllers\Products\ImageController($container);
 };
 
+$container['UserImageController'] = function ($container) {
+    return new \App\Controllers\Auth\UserImageController($container);
+};
+
 $container['SellController'] = function ($container) {
     return new \App\Controllers\Sell\SellController($container);
 };
 
-
+v::with('App\\Validation\\Rules\\');
 require __DIR__ . '/../app/routes.php';
