@@ -21,17 +21,20 @@ class UserImageController extends Controller{
         
         $uploadedFiles = $request->getUploadedFiles();
 
-        $uploadedFile = $uploadedFiles['user_image'];
-
+        $uploadedFile =  $uploadedFiles['user_image'];
+        
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
             $imageUrl = $this->moveImage($directory, $uploadedFile,$user_id);
             $this->auth->user()->setImage($imageUrl);
-            $response->write(json_encode(true));
 
-        }else {
+            $response->withHeader("Content-type", 'image/jpg');
+            $image = file_get_contents($imageUrl);
+            $response->getBody()->write($image);
+            return $response;
 
-            $response->write(json_encode(false));
         }
+
+        $response->write(json_encode(false));
         return $response;
     }
     $response->getBody()->write(json_encode(false));
@@ -58,17 +61,17 @@ public function downloadUserImage($request,$response) {
     if($this->auth->check()) {
 
     $user_id=$_SESSION['user'];
-    $directory=$this->user_image_directory.DIRECTORY_SEPARATOR.$user_id.DIRECTORY_SEPARATOR;
-    $filepath=$directory.$user_id;    
+    $user=$this->auth->user();
+    $filepath=$user->imageurl;    
     $image = file_get_contents($filepath);
 
     if ($image === false) {
         $response->write("Could not find $filename.");
         return $response->withStatus(404);
     }
-    
-    $response->write($image);
-    return $response->withHeader('Content-Type', 'image/');
+    $response->withHeader("Content-type", 'image/jpg');
+    $response->getBody()->write($image);
+    return $response;
     }
 }
 

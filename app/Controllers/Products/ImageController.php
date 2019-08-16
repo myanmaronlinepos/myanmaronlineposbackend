@@ -26,11 +26,15 @@ class ImageController extends Controller{
 
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
             $imageUrl = $this->moveImage($directory, $uploadedFile,$product_id);
-            $this->product->product($product_id)->setImage($imageUrl);
-            $response->write(json_encode(true));
-        }else {
-            $response->write(json_encode(false));
+            $this->product->getProduct($product_id)->setImage($imageUrl);
+
+            $response->withHeader("Content-type", 'image/jpg');
+            $image = file_get_contents($imageUrl);
+            $response->getBody()->write($image);
+            return $response;
         }
+
+        $response->getBody()->write(json_encode(false));
         return $response;
     }
     $response->getBody()->write(json_encode(false));
@@ -52,14 +56,14 @@ function makeDir($path)
      return is_dir($path) || mkdir($path);
 }
 
-public function downloadProductImage($request,$response) {
+public function downloadProductImage($request,$response,$args) {
 
     if($this->auth->check()) {
 
     $user_id=$_SESSION['user'];
-    $product_id=$request->getParam('product_id');
-    $directory=$this->product_image_directory.DIRECTORY_SEPARATOR.$user_id.DIRECTORY_SEPARATOR;
-    $filepath=$directory.$product_id;    
+    $product_id=$args['product_id'];
+    $product=$this->product->getProduct($product_id);
+    $filepath=$product->imageurl;    
     $image = file_get_contents($filepath);
 
     if ($image === false) {
@@ -67,8 +71,9 @@ public function downloadProductImage($request,$response) {
         return $response->withStatus(404);
     }
     
-    $response->write($image);
-    return $response->withHeader('Content-Type', 'image/');
+    $response->withHeader("Content-type", 'image/jpg');
+    $response->getBody()->write($image);
+    return $response;
     }
 }
 

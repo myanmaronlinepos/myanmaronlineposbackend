@@ -2,6 +2,9 @@
 
 $app->get('/api/check','AuthController:isLogged')->setName("auth.isLogged");
 
+$app->post('/change_password','PasswordController:postPasswordChange')->setName("changePassword");
+
+
 
 $app->group('/api/guest', function () use($app){
     
@@ -19,7 +22,7 @@ $app->group('/api/user', function () use($app) {
     $app->group('/get', function () use($app){
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
         $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
-        $app->get('/product/image','ImageController:downloadProductImage')->setName("downloadProductImage");
+        $app->get('/product/image/{product_id}','ImageController:downloadProductImage')->setName("downloadProductImage");
         
         $app->get('/userData','AuthController:getUserData')->setName("getUserData");
         $app->get('/userImage','UserImageController:downloadUserImage')->setName("getUserImage");
