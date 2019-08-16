@@ -63,11 +63,11 @@ public function downloadProductImage($request,$response,$args) {
     $user_id=$_SESSION['user'];
     $product_id=$args['product_id'];
     $product=$this->product->getProduct($product_id);
-    $filepath=$product->imageurl;    
+    $filepath=$product->imageUrl;    
     $image = file_get_contents($filepath);
-
+    
     if ($image === false) {
-        $response->write("Could not find $filename.");
+        $response->write("Could not find.");
         return $response->withStatus(404);
     }
     

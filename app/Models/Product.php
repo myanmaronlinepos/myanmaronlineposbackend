@@ -18,7 +18,7 @@ class Product extends Model
   'tag_id',
   'price_cost',
   'price_sell',
-  'imageurl',
+  'imageUrl',
  ];
 
  public function setImage($imageUrl)
@@ -26,7 +26,7 @@ class Product extends Model
 
   $this->update([
 
-   'imageurl' => $imageUrl,
+   'imageUrl' => $imageUrl,
   ]);
  }
 
