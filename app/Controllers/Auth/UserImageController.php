@@ -34,7 +34,7 @@ class UserImageController extends Controller{
 
         }
 
-        $response->write(json_encode(false));
+        $response->getBody()->write(json_encode(false));
         return $response;
     }
     $response->getBody()->write(json_encode(false));
