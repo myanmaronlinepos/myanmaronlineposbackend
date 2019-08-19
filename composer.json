@@ -3,7 +3,8 @@
         "slim/slim": "^3.12",
         "respect/validation": "^1.1",
         "illuminate/database": "^5.8",
-        "slim/csrf": "^0.8.3"
+        "slim/csrf": "^0.8.3",
+        "nesbot/carbon": "^2.23"
     },
     "autoload": {
         "psr-4": {
