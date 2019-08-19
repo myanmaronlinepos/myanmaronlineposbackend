@@ -36,4 +36,21 @@ class Product extends Model
      ]);
  }
 
+ public function updateProduct(
+     $product_name,
+     $category_id,
+     $tag_id,
+     $price_cost,
+     $price_sell
+ ) {
+
+    $this->update([
+        'product_name' => $product_name,
+        'category_id'  => $category_id,
+        'tag_id'       => $tag_id,
+        'price_cost'   => $price_cost,
+        'price_sell'   => $price_sell
+     ]);
+ }
+
 }

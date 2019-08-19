@@ -135,6 +135,51 @@ class ProductController extends Controller
             $product_id=$product->product_id;
             $response->getBody()->write(json_encode($product_id));
         }
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
     }
 
+    public function updateProduct($request,$response) {
+
+        if ($this->auth->check()) {
+            $user_id = $_SESSION['user'];
+
+            $validation = $this->validator->validate($request, [
+                'product_name' => v::notEmpty(),
+                'category_id'  => v::noWhitespace()->notEmpty(),
+                'tag_id'       => v::notEmpty()->noWhitespace(),
+                'price_cost'   => v::notEmpty()->noWhitespace(),
+                'price_sell'   => v::notEmpty()->noWhitespace(),
+            ]);
+
+            if ($validation->failed()) {
+                if(isset($_SESSION['errors'])) {
+                    $response->getBody()->write(json_encode($_SESSION['errors']));
+                    return $response->withStatus(400);   
+                }
+            }
+
+            $product_id=$request->getParam('product_id');
+            $category_id=$request->getParam('category_id');
+            $tag_id=$request->getParam('tag_id');
+            $price_cost=$request->getParam('price_cost');
+            $price_sell=$request->getParam('price_sell');
+
+            $product=$this->product->getProduct($product_id);
+            $product->updateProduct(
+                $product_name,
+                $category_id,
+                $tag_id,
+                $price_cost,
+                $price_sell
+            );
+            
+            $response->getBody()->write(json_encode(true));
+            return $response->withStatus(200);
+        }
+
+        $response->getBody()->write(json_encode(false));
+        return $response->withStatus(400);
+    }
 }
