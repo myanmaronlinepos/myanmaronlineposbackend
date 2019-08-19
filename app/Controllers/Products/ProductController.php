@@ -132,7 +132,8 @@ class ProductController extends Controller
                 'product_id'=> $product->product_id,  
                 'qunatity'  => 0,
                ]);
-            $response->getBody()->write(json_encode(true));
+            $product_id=$product->product_id;
+            $response->getBody()->write(json_encode($product_id));
         }
     }
 
