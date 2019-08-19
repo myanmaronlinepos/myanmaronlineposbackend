@@ -114,5 +114,9 @@ $container['SellController'] = function ($container) {
     return new \App\Controllers\Sell\SellController($container);
 };
 
+$container['DashboardController'] = function ($container) {
+    return new \App\Controllers\Dashboard\DashboardController($container);
+};
+
 v::with('App\\Validation\\Rules\\');
 require __DIR__ . '/../app/routes.php';

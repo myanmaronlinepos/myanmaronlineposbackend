@@ -36,6 +36,11 @@ $app->group('/api/user', function () use($app) {
         $app->get('/sellitems','SellController:getAllSellItem')->setName("getSellItem");
 
         $app->get('/inventory','InventoryController:getAllProductInventory')->setName("getInventory");
+
+        $app->get('/dashboard_labels','DashboardController:getLabels')->setName("labels");
+        $app->get('/dashboard_data/{start_date}/{end_date}','DashboardController:getData')->setName("data");
+
+
         
     });
     
