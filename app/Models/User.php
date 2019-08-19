@@ -50,12 +50,13 @@ class User extends Model
     return $this->belongsTo('App\Models\City','city_id');
 }
 
-public function updateUserData($user_name,$user_email,$user_phone,$address,$city_id) {
+public function updateUserData($user_name,$user_email,$user_phone,$address,$storename,$city_id) {
     $this->update([
         'user_name' => $user_name,
         'user_email'=> $user_email,
         'user_phone'=> $user_phone,
         'address'   => $address,
+        'storename' => $storename,
         'city_id'   => $city_id,
     ]);
 }

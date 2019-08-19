@@ -4,11 +4,11 @@ $app->get('/api/check','AuthController:isLogged')->setName("auth.isLogged");
 
 $app->post('/change_password','PasswordController:postPasswordChange')->setName("changePassword");
 
+$app->get('/allcity','CityController:getAllCity')->setName("getAllCity");
 
 
 $app->group('/api/guest', function () use($app){
     
-    $app->get('/allcity','CityController:getAllCity')->setName("getAllCity");
     $app->post('/signup','AuthController:postSignup')->setName("auth.signup");
 
     $app->post('/checkEmail','AuthController:checkEmail')->setName("checkemail");
