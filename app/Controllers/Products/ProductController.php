@@ -65,36 +65,17 @@ class ProductController extends Controller
 
     // get specific product by product_id
 
-    public function getOneProduct($request, $response)
-    {
-
-        if ($this->auth->check()) {
-            $validation = $this->validator->validate($request, [
-                'product_id' => v::notEmpty()->noWhitespace(),
-            ]);
-
-            if ($validation->failed()) {
-
-                if (isset($_SESSION['errors'])) {
-
-                    $error = $_SESSION['errors'];
-                    $response->getBody()->write(json_encode($error));
-
-                } else {
-
-                    $response->getBody()->write(json_encode(false));
-
-                }
-
-                return $response;
+    public function getOneProduct($request, $response,$args)
+        {
+            $product_id = $args['product_id'];
+            $product    = $this->product->getProduct($product_id);
+            if(!$product) {
+                $response->getBody()->write(json_encode(false));
+                return $response->withStatus(400);
             }
 
-            $product_id = $request->getParam('product_id');
-            $product    = $this->product->product($product_id);
             $response->getBody()->write(json_encode($product));
-            return $response;
-        }
-
+            return $response->withStatus(200);
     }
 
     public function addProduct($request, $response)
@@ -161,6 +142,7 @@ class ProductController extends Controller
             }
 
             $product_id=$request->getParam('product_id');
+            $product_name=$request->getParam('product_name');
             $category_id=$request->getParam('category_id');
             $tag_id=$request->getParam('tag_id');
             $price_cost=$request->getParam('price_cost');

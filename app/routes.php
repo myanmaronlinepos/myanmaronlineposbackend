@@ -21,7 +21,7 @@ $app->group('/api/user', function () use($app) {
     
     $app->group('/get', function () use($app){
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
-        $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
+        $app->get('/products/{product_id}','ProductController:getOneProduct')->setName("getProduct");
         $app->get('/product/image/{product_id}','ImageController:downloadProductImage')->setName("downloadProductImage");
         
         $app->get('/userData','AuthController:getUserData')->setName("getUserData");
