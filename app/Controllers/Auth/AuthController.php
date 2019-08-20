@@ -172,12 +172,13 @@ public function checkEmail($request,$response) {
            }
  
            $user=$this->auth->user();
-           $user->setUserData(
-               $request->user_name,
-               $request->user_email,
-               $request->user_phone,
-               $request->address,
-               $request->city_id
+           $user->updateUserData(
+               $request->getParam('user_name'),
+               $request->getParam('user_email'),
+               $request->getParam('user_phone'),
+               $request->getParam('address'),
+               $request->getParam('storename'),
+               $request->getParam('city_id')
            );
  
            $response->getBody()->write(json_encode(true));

@@ -4,11 +4,11 @@ $app->get('/api/check','AuthController:isLogged')->setName("auth.isLogged");
 
 $app->post('/change_password','PasswordController:postPasswordChange')->setName("changePassword");
 
+$app->get('/allcity','CityController:getAllCity')->setName("getAllCity");
 
 
 $app->group('/api/guest', function () use($app){
     
-    $app->get('/allcity','CityController:getAllCity')->setName("getAllCity");
     $app->post('/signup','AuthController:postSignup')->setName("auth.signup");
 
     $app->post('/checkEmail','AuthController:checkEmail')->setName("checkemail");
@@ -21,7 +21,7 @@ $app->group('/api/user', function () use($app) {
     
     $app->group('/get', function () use($app){
         $app->get('/products','ProductController:getAllProducts')->setName("getProducts");
-        $app->get('/product','ProductController:getOneProduct')->setName("getProduct");
+        $app->get('/products/{product_id}','ProductController:getOneProduct')->setName("getProduct");
         $app->get('/product/image/{product_id}','ImageController:downloadProductImage')->setName("downloadProductImage");
         
         $app->get('/userData','AuthController:getUserData')->setName("getUserData");
@@ -47,9 +47,11 @@ $app->group('/api/user', function () use($app) {
     $app->group('/post', function () use($app) {
 
         $app->post('/userImage','UserImageController:uploadUserImage')->setName("postUserImage");
+        $app->post('/update_user_data','AuthController:updateUserData')->setName("updateUserData");
 
         $app->post('/products','ProductController:postProducts')->setName("postProducts");
         $app->post('/product','ProductController:addProduct')->setName("addProduct");
+        $app->post('/updateProduct','ProductController:updateProduct')->setName("updateProduct");
         $app->post('/product/image','ImageController:uploadProductImage')->setName("uploadProductImage");
         
         $app->post('/category','CategoryController:addCategory')->setName("postCategory");
@@ -64,7 +66,6 @@ $app->group('/api/user', function () use($app) {
         $app->post('/delete_category','CategoryController:deleteCategory')->setName("deleteCategory");
         $app->post('/delete_tag','TagController:deleteTag')->setName("deleteTag");
 
-        $app->post('/update_user_data','AuthController:updateUserData')->setName("updateUserData");
         
     });
 
